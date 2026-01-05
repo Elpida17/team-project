@@ -11,6 +11,7 @@ public class CitizenService {
 	private CitizenRepository citizenRepository;
 
 	public void addCitizen(Citizen c) throws Exception {
+		//Check first if exist already
 		Optional<Citizen> byId = citizenRepository.findById(c.getAfm());
 		if(!byId.isPresent())
 			citizenRepository.save(c);

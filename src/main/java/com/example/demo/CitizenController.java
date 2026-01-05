@@ -12,6 +12,7 @@ public class CitizenController {
      @Autowired
      private CitizenService cs;
 	
+     //Register Citizen
 	@PostMapping(path="/addCitizen")
 	public void addCitizen(@RequestBody Citizen cz) throws Exception {
 		cs.addCitizen(cz);
