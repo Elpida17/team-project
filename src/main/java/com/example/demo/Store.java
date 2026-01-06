@@ -12,7 +12,7 @@ public class Store {
    private String owner;   
    private String password;
    
-   @OnetoOne(mappedBy = "store", cascade = CascadeType.ALL)
+   @OneToOne(mappedBy = "store", cascade = CascadeType.ALL)
    private Product product;
    
    public Store() {}
