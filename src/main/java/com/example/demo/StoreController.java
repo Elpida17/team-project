@@ -3,6 +3,8 @@ package com.example.demo;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.entities.Store;
+
 //Since this is the controller, it is the place where we add our end-points
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
