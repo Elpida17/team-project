@@ -14,7 +14,7 @@ public class Product {
 	private String description;
 	private int numberOfProducts;
 	
-	/*public Product(String type, String brand, double price, String description, int numberOfProducts, Store store) {
+	public Product(String type, String brand, double price, String description, int numberOfProducts, Store store) {
 		super();
 		this.type = type;
 		this.brand = brand;
@@ -22,8 +22,9 @@ public class Product {
 		this.description = description;
 		this.numberOfProducts = numberOfProducts;
 		//Store αρχικοποίηση
-	}*/
+	}
 	
+	public Product() {}
 	public String getBrand() {return brand;} 
 	public double getPrice() {return price;} 
 	public String getDescription() {return description;} 

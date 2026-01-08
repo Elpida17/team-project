@@ -15,6 +15,10 @@ public class Store {
    @OneToOne(mappedBy = "store", cascade = CascadeType.ALL)
    private Product product;
    
+   /*@OneToOne
+   @JoinColumn(name = "product")
+   private Product product;*/
+   
    public Store() {}
    
    

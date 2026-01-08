@@ -11,13 +11,13 @@ import com.example.demo.entities.Citizen;
 @RestController
 public class CitizenController {
 
-     @Autowired
+    /* @Autowired
      private CitizenService cs;
 	
      //Register Citizen
 	@PostMapping(path="/addCitizen")
 	public void addCitizen(@RequestBody Citizen cz) throws Exception {
 		cs.addCitizen(cz);
-	}
+	} */
 
 }
