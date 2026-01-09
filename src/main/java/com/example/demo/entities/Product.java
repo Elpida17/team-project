@@ -1,9 +1,6 @@
 package com.example.demo.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-
+import javax.persistence.*;
 import org.springframework.data.annotation.Id;
 
 @Entity
