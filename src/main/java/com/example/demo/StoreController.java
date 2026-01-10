@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entities.Store;
+import com.example.demo.services.StoreService;
 
 //Since this is the controller, it is the place where we add our end-points
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -15,8 +16,13 @@ public class StoreController {
 	
      //Register Store
 	@PostMapping(path="/addStore")
-	public void addStore(@RequestBody Store s) throws Exception {
-		storeService.addStore(s);
+	public String addStore(@RequestBody Store s) throws Exception {
+		try {
+	        storeService.addStore(s);
+	        return "Το κατάστημα " + s.getShopName() + " με ΑΦΜ " + s.getAfm() + " εγγράφηκε επιτυχώς!";
+	    } catch (Exception e) {
+	        return "Σφάλμα κατά την εγγραφή: " + e.getMessage();
+	    }
 	}
 
 }

@@ -18,12 +18,12 @@ public class Citizen {
 	
 	public Citizen() {}
 	
-	public Citizen(int a, String fn, String sn, String e, String p) {
-        this.afm = a; 
-        this.firstName = fn; 
-        this.surName = sn; 
-        this.email = e; 
-        this.password = p; 
+	public Citizen(int afm, String firstName, String surName, String email, String password) {
+        this.afm = afm; 
+        this.firstName = firstName; 
+        this.surName = surName; 
+        this.email = email; 
+        this.password = password; 
     }
 
 	public int getAfm() {
