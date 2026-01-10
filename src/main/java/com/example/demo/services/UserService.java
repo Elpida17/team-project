@@ -26,7 +26,7 @@ public class UserService {
         Store store = new Store();
         
         store.setAfm(dto.afm);
-        store.SetShopName(dto.shopName);
+        store.setShopName(dto.shopName);
         store.setOwner(dto.owner);
         store.setPassword(dto.password);
   

@@ -27,24 +27,58 @@ public class Store {
 		this.owner = owner;
 		this.password = password;
    }
-   
+
+
    public int getAfm() {
-	   return afm;
+	return afm;
    }
-   
+
+
+   public void setAfm(int afm) {
+	this.afm = afm;
+   }
+
+
    public String getShopName() {
-	   return shopName;
+	return shopName;
    }
-   
+
+
+   public void setShopName(String shopName) {
+	this.shopName = shopName;
+   }
+
+
    public String getOwner() {
-	   return owner;
+	return owner;
+   }
+
+
+   public void setOwner(String owner) {
+	this.owner = owner;
+   }
+
+
+   public String getPassword() {
+	return password;
+   }
+
+
+   public void setPassword(String password) {
+	this.password = password;
+   }
+
+
+   public Product getProduct() {
+	return product;
+   }
+
+
+   public void setProduct(Product product) {
+	this.product = product;
    }
    
-   public String getPassword() {
-	   return password; }
-   public Product getProduct() {
-	   return product; }
-   public void setProduct(Product p ) { product = p; }
+  
 }
    
 

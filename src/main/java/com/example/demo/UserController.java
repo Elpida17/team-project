@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.dto.CitizenRegisterDto;
 import com.example.demo.dto.StoreRegisterDto;
 import com.example.demo.services.UserService;
-
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -32,7 +31,7 @@ public class UserController {
 		    return userService.citizenRegister(dto); 
 		}
 
-		@PostMapping("/storepRegister")
+		@PostMapping("/storeRegister")
 		public String storeRegister(@Valid @RequestBody StoreRegisterDto dto) {
 			return userService.storeRegister(dto); 
 		}
