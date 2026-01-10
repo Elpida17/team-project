@@ -1,7 +1,6 @@
 package com.example.demo.entities;
 
 import javax.persistence.*;
-import org.springframework.data.annotation.Id;
 
 @Entity
 public class Product {
@@ -15,24 +14,66 @@ public class Product {
 	private int numberOfProducts;
 	
 	@OneToOne
-    @JoinColumn(name = "store") 
+    @JoinColumn(name = "store_afm") 
     private Store store;
 	
+	public Product() {}
+	
 	public Product(String type, String brand, double price, String description, int numberOfProducts, Store store) {
-		super();
 		this.type = type;
 		this.brand = brand;
 		this.price = price;
 		this.description = description;
 		this.numberOfProducts = numberOfProducts;
-		//Store αρχικοποίηση
+	
 	}
-	
-	public Product() {}
-	public String getBrand() {return brand;} 
-	public double getPrice() {return price;} 
-	public String getDescription() {return description;} 
-	public int getNumberOfProducts() {return numberOfProducts;} 
-	
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getBrand() {
+		return brand;
+	}
+
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getNumberOfProducts() {
+		return numberOfProducts;
+	}
+
+	public void setNumberOfProducts(int numberOfProducts) {
+		this.numberOfProducts = numberOfProducts;
+	}
+
+	public Store getStore() {
+		return store;
+	}
+
+	public void setStore(Store store) {
+		this.store = store;
+	}
 	
 }

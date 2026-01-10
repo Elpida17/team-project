@@ -1,7 +1,8 @@
 package com.example.demo.entities;
 
-import java.util.Set;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity 
 public class Cart {
@@ -14,8 +15,8 @@ public class Cart {
 	@JoinColumn(name = "citizen")
 	private Citizen citizen;
 	
-	@OneToMany(mappedBy="cart")
-	private Set<Product> products;
+	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+	private List<CartItem> products;
 	
 	private double total_price;
 	
@@ -42,11 +43,11 @@ public class Cart {
 		this.citizen = citizen;
 	}
 
-	public Set<Product> getProducts() {
+	public List<CartItem> getProducts() {
 		return products;
 	}
 
-	public void setProducts(Set<Product> products) {
+	public void setProducts(List<CartItem> products) {
 		this.products = products;
 	}
 

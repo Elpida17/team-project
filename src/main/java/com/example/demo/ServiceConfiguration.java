@@ -1,12 +1,10 @@
 package com.example.demo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class ServiceConfiguration implements CommandLineRunner {
-
+public class ServiceConfiguration{
+/*
 	@Autowired
 	private ServiceConfiguration sc;
 	
@@ -16,5 +14,5 @@ public class ServiceConfiguration implements CommandLineRunner {
 		
 	//Add products//
 	}
-
+*/
 }
