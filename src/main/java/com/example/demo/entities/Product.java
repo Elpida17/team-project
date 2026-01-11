@@ -2,6 +2,8 @@ package com.example.demo.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Product {
 
@@ -13,8 +15,9 @@ public class Product {
 	private String description;
 	private int numberOfProducts;
 	
-	@OneToOne
+	@ManyToOne
     @JoinColumn(name = "store_afm") 
+	@JsonIgnore
     private Store store;
 	
 	public Product() {}
@@ -25,7 +28,7 @@ public class Product {
 		this.price = price;
 		this.description = description;
 		this.numberOfProducts = numberOfProducts;
-	
+		this.store = store;
 	}
 
 	public String getType() {

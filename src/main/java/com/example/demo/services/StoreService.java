@@ -4,8 +4,8 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
-import com.example.demo.StoreRepository;
 import com.example.demo.entities.Store;
+import com.example.demo.repository.StoreRepository;
 
 @Service
 public class StoreService {

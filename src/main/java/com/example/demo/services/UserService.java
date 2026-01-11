@@ -5,12 +5,12 @@ import javax.persistence.Id;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.CitizenRepository;
-import com.example.demo.StoreRepository;
 import com.example.demo.dto.CitizenRegisterDto;
 import com.example.demo.dto.StoreRegisterDto;
 import com.example.demo.entities.Citizen;
 import com.example.demo.entities.Store;
+import com.example.demo.repository.CitizenRepository;
+import com.example.demo.repository.StoreRepository;
 
 @Service
 public class UserService {

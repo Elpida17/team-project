@@ -19,8 +19,7 @@ public class Store {
    private Product product;
    
    public Store() {}
-   
-   
+    
    public Store(int afm, String shopName, String owner, String password) {
 		this.afm = afm;
 		this.shopName = shopName;
