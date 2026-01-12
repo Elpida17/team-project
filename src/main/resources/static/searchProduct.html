@@ -1,0 +1,102 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Αναζήτηση Προϊόντων</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2 style="text-align:center;">Αναζήτηση Προϊόντων</h2> 
+
+	<div class="searchTable">
+		<table>
+		    <tr>
+			   <td> Τύπος: </td>
+				<td> <input type='text' id='type'> </td>
+			</tr>
+			<tr>
+				<td> Μάρκα: </td>
+				<td> <input type='text' id='brand'> </td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+			   <td> Τιμή Από: </td>
+			   <td> <input type='number' id='minPrice'> </td>
+			</tr>
+			<tr>
+			   <td> Τιμή Έως: </td>
+			   <td> <input type='number' id='maxPrice'> </td>
+			</tr>
+		</table>
+    </div>
+
+        <div>
+            <button id="searchButton" onclick="searchProducts()">Αναζήτηση </button>
+        </div>
+    </div>
+
+    <table border="1" id="resultsTable">
+		<thead>
+            <tr>
+                <th>Τύπος</th>
+                <th>Μάρκα</th>
+                <th>Τιμή</th>
+                <th>Περιγραφή</th>
+                <th>Διαθεσιμότητα</th>
+            </tr>
+		</thead>
+		<tbody id="resultsBody">
+			</tbody>
+    </table>
+
+    <script>
+        function searchProducts() {
+            var searchCriteria = {
+                "type": document.getElementById("type").value || null,
+                "brand": document.getElementById("brand").value || null,
+                "minPrice": parseFloat(document.getElementById("minPrice").value) || 0,
+                "maxPrice": parseFloat(document.getElementById("maxPrice").value) || 0
+            };
+
+            var settings = {
+                "url": "http://localhost:8080/search",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify(searchCriteria)
+            };
+
+            $.ajax(settings).done(function (response) {
+                var tableBody = $("#resultsTable tbody");
+                tableBody.empty(); 
+
+                if (response.length === 0) {
+                    tableBody.append("<tr><td colspan='5' style='text-align:center;'>Δεν βρέθηκαν προϊόντα.</td></tr>");
+                    return;
+                }
+
+                response.forEach(function(product) {
+                    var row = "<tr>" +
+                        "<td>" + product.type + "</td>" +
+                        "<td>" + product.brand + "</td>" +
+                        "<td>" + product.price + " €</td>" +
+                        "<td>" + product.description + "</td>" +
+                        "<td>" + product.numberOfProducts + " τεμ.</td>" +
+                        "</tr>";
+                    tableBody.append(row);
+                });
+            }).fail(function (jqXHR) {
+                alert("Σφάλμα κατά την αναζήτηση: " + jqXHR.status);
+            });
+        }
+    </script>
+
+</body>
+</html>

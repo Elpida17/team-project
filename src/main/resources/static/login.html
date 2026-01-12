@@ -13,20 +13,19 @@
         <h2>Σύνδεση</h2>
         
         <form id="loginForm">
-			<input type="text" id="afm" placeholder="ΑΦΜ" inputmode="numeric" required>
-            <input type="password" id="password" placeholder="Κωδικός Πρόσβασης" required>
+			<label> ΑΦΜ: <input type="text" id="afm" inputmode="numeric" required> </label>
+            <label> Password: <input type="password" id="password" required> </label>
             <button type="submit">Είσοδος</button>
         </form>
 
-        <div class="links">
-            <a href="citizenRegister.html">Εγγραφή Πολίτη</a>
+        <nav>
+            <a href="citizenRegister.html">Εγγραφή Πολίτη</a> <br>
             <a href="storeRegister.html">Εγγραφή Καταστήματος</a>
-        </div>
+        </nav>
     </div>
 	
 	<script>
 	        function addStore() {
-	            // Φτιάχνουμε το αντικείμενο JSON όπως το περιμένει το DTO 
 	            var storeData = {
 	                "afm": parseInt(document.getElementById("afm").value),
 	                "shopName": document.getElementById("shopName").value,
@@ -46,7 +45,7 @@
 
 	            // Η κλήση AJAX της jQuery
 	            $.ajax(settings).done(function (response) {
-	                alert(response); // Εμφανίζει το μήνυμα "Το κατάστημα δημιουργήθηκε επιτυχώς!"
+	                alert(response); 
 	                window.location.href = "login.html"; // Επιστροφή στη σύνδεση
 	            }).fail(function (jqXHR) {
 	                alert("Σφάλμα: " + jqXHR.responseText);

@@ -1,0 +1,62 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Εγγραφή Πολίτη</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Εγγραφή Πολίτη</h2>
+
+        <form id="registerForm">
+            <label> ΑΦΜ: <input type="text" id="afm" required> </label> 
+            <label> Όνομα: <input type="text" id="firstName" required> </label>
+			<label> Επώνυμο: <input type="text" id="surName" required> </label>
+            <label> Email: <input type="email" id="email" required> </label>
+            <label>Password: <input type="password" id="password" required> </label>
+            
+            <button type="button" onclick="addCitizen()">Εγγραφή</button>
+        </form>
+    
+    <script>
+        function addCitizen() {
+            var storeData = {
+                "afm": parseInt(document.getElementById("afm").value),
+                "firstName": document.getElementById("firstName").value,
+                "surName": document.getElementById("surName").value,
+				"email":document.getElementById("email").value,
+                "password": document.getElementById("password").value
+            };
+
+            // Validate afm
+            if (isNaN(storeData.afm)) {
+                alert("Παρακαλώ εισάγετε έναν έγκυρο αριθμό ΑΦΜ.");
+                return;
+            }
+
+            var settings = {
+                "url": "http://localhost:8080/citizenRegister",
+                "method": "POST",
+                "timeout": 0,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "data": JSON.stringify(storeData)
+            };
+
+            $.ajax(settings)
+            .done(function (response) {
+                alert("Επιτυχής εγγραφή!"); 
+                window.location.href = "login.html"; 
+            })
+            .fail(function (jqXHR) {
+                alert("Παρακαλώ πληκτρολογήστε άλλο ΑΦΜ");//if afm already exist it will show an error
+            });
+        }
+    </script>
+
+</body>

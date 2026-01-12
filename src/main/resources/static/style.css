@@ -1,22 +1,23 @@
-/*λευκή οθόνη και φόρμα στη μέση*/
 body {
     font-family: Arial, sans-serif;
     background-color: white;
     display: flex;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
     margin: 0;
 }
 
-/*πλαίσιο στη μέση*/
+
 .login-container {
     border: 1px solid #ddd;
     padding: 30px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-    width: 300px;
+    width: 350px; 
     text-align: center;
+    background-color: #fff;
 }
 
 h2 { margin-bottom: 20px; }
@@ -30,7 +31,7 @@ input {
     box-sizing: border-box;
 }
 
-/*μπλε κουμπί εισόδου*/
+/* Μπλε κουμπί */
 button {
     width: 100%;
     padding: 10px;
@@ -47,7 +48,7 @@ button:hover {
     background-color: #0056b3;
 }
 
-/*σύνδεσμοι για εγγραφή*/
+/* Σύνδεσμοι για εγγραφή */
 .links {
     margin-top: 20px;
     font-size: 14px;
@@ -57,9 +58,43 @@ button:hover {
     display: block;
     margin-top: 8px;
     color: #007bff;
-    text-decoration: none;
 }
 
 .links a:hover {
     text-decoration: underline;
+} 
+
+.searchTable {
+    display: flex;         
+    justify-content: center; 
+    align-items: center;   
+    gap: 20px;            
+    margin-top: 20px;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.searchTable table td {
+    padding: 5px;
+    font-weight: bold;
+}
+
+/* Πίνακας Αποτελεσμάτων */
+#resultsTable {
+    width: 90%;
+    margin: 30px auto;
+    border-collapse: collapse;
+}
+
+#resultsTable th {
+    background-color: #007bff;
+    color: white;
+    padding: 12px;
+}
+
+#resultsTable td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
 }
