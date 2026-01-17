@@ -16,7 +16,7 @@ public class Store {
 	private String owner;   
 	private String password;
    
-    @OneToOne(mappedBy = "store", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL)
     @JsonIgnore // Αυτό θα σταματήσει τον κύκλο στο Swagger/JSON
     private List<Product> product;
    
