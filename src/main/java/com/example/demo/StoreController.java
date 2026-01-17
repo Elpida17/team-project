@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +26,10 @@ public class StoreController {
 	        return "Σφάλμα κατά την εγγραφή: " + e.getMessage();
 	    }
 	}
-
+	
+	//Get Stores
+	@GetMapping(path="/stores")
+	public List<Store> getAllStore()  throws Exception{
+		return storeService.getAllStores();
+	} 
 }

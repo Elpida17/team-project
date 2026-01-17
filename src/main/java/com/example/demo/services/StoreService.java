@@ -20,8 +20,10 @@ public class StoreService {
 			storeRepository.save(s);
 	} else {
 		System.out.println("Το μαγαζί αυτό υπάρχει ήδη.");
+		}
 	}
 	
-
-}
+	public List<Store> getAllStores() {
+		return storeRepository.findAll();
+	}
 }
