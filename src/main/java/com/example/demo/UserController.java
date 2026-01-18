@@ -1,14 +1,18 @@
 package com.example.demo;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CitizenRegisterDto;
 import com.example.demo.dto.StoreRegisterDto;
+import com.example.demo.entities.Citizen;
 import com.example.demo.services.UserService;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -36,5 +40,9 @@ public class UserController {
 			return userService.storeRegister(dto); 
 		}
 
+		@GetMapping("/getCitizens")
+		public List<Citizen> getAllCitizens() throws Exception{
+			return userService.getCitizens();
+		}
 }
 

@@ -3,6 +3,7 @@ package com.example.demo;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,4 +35,8 @@ public class ProductController {
         public List<Product> search(@RequestBody ProductSearchDto dto) {
             return productService.searchProducts(dto.type, dto.brand, dto.minPrice, dto.maxPrice);
         }
-}
+		
+		@GetMapping("/getProducts")
+		public List<Product> getAllProducts() throws Exception{
+			return productService.getProducts();		}
+		}

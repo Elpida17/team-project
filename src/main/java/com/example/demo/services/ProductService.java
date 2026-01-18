@@ -26,6 +26,9 @@ public class ProductService {
 	public List<Product> searchProducts(String type, String brand, Double minPrice, Double maxPrice) {
 	    return productRepository.search(type, brand, minPrice, maxPrice);
 	}
-	  
+	
+	public List<Product> getProducts(){
+		return productRepository.findAll();
+	}
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo.services;
 
+import java.util.List;
+
 import javax.persistence.Id;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,4 +58,8 @@ public class UserService {
     public Object login(String email, String password) {
         return null; 
     }*/
+    
+    public List<Citizen> getCitizens(){
+    	return citizenRepository.findAll();
+    }
 }
