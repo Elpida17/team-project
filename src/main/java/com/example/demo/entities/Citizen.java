@@ -3,6 +3,8 @@ package com.example.demo.entities;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity 
 public class Citizen { 
 	@Id 
@@ -13,7 +15,8 @@ public class Citizen {
 	private String email; 
 	private String password; 
 	
-	@OneToOne(mappedBy="citizen")
+	@OneToOne(mappedBy="citizen", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("citizen")
 	private Cart cart;
 	
 	public Citizen() {}

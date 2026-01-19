@@ -22,8 +22,13 @@ public class CartController {
         return ResponseEntity.ok("Το προϊόν προστέθηκε στο καλάθι.");
     }
     
-    @GetMapping("/view")
-    public List<Cart> getCart() throws Exception{
-    	return cartService.viewCart();
+    @GetMapping("/view/{citizenAfm}")
+    public ResponseEntity<Cart> getCartByCitizen(@PathVariable Integer citizenAfm) {
+        try {
+            Cart cart = cartService.getCartByCitizen(citizenAfm);
+            return ResponseEntity.ok(cart);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(404).body(null);
+        }
     }
 }

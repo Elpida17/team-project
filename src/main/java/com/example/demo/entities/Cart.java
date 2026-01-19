@@ -2,6 +2,9 @@ package com.example.demo.entities;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 @Entity 
@@ -13,9 +16,11 @@ public class Cart {
 	
 	@OneToOne
 	@JoinColumn(name = "citizen")
+	@JsonIgnoreProperties("cart")
 	private Citizen citizen;
 	
 	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
+	@JsonIgnoreProperties("cart")
 	private List<CartItem> products;
 	
 	private double total_price;

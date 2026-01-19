@@ -62,7 +62,14 @@ public class CartService {
         cartRepository.save(cart);
     }
     
-    public List<Cart> viewCart(){
-    	return cartRepository.findAll();
+    public Cart getCartByCitizen(Integer citizenAfm) {
+        Citizen citizen = citizenRepository.findById(citizenAfm)
+            .orElseThrow(() -> new RuntimeException("Ο πελάτης δεν βρέθηκε"));
+        
+        Cart cart = citizen.getCart();
+        if (cart == null) {
+            throw new RuntimeException("Το καλάθι είναι άδειο");
+        }
+        return cart;
     }
 }
