@@ -29,16 +29,18 @@ public class ProductController {
 	private StoreService storeService;
 
 	
-		@PostMapping("/store/addProduct")
-	    public ResponseEntity<String> addProductToStore(@RequestBody AddProductDto addProductDto) {
-	        try {
-	            productService.addProductToStore(addProductDto);
-	            return ResponseEntity.ok("Το προϊόν προστέθηκε επιτυχώς!");
-	        } catch (Exception e) {
-	            return ResponseEntity.badRequest().body("Σφάλμα: " + e.getMessage());
-	        }
+	@PostMapping("/store/{storeAfm}/addProduct")
+	public ResponseEntity<String> addProductToStore(
+	        @PathVariable Integer storeAfm,
+	        @RequestBody AddProductDto addProductDto) {
+	    
+	    try {
+	        productService.addProductToStore(storeAfm, addProductDto);
+	        return ResponseEntity.ok("Το προϊόν προστέθηκε επιτυχώς στο κατάστημα " + storeAfm + "!");
+	    } catch (Exception e) {
+	        return ResponseEntity.badRequest().body("Σφάλμα: " + e.getMessage());
 	    }
-	
+	}	
         
 		/*search product
 		 * Flexible search: Returns results even if the user provides only one criterion.

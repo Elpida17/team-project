@@ -38,27 +38,19 @@ public class ProductService {
 	}
 
 	 // Προσθήκη προϊόντος σε κατάστημα
-    public void addProductToStore(AddProductDto dto) {
-        // 1. Έλεγχος αν το κατάστημα υπάρχει
-        Store store = storeRepository.findById(dto.getStoreAfm()).orElseThrow(() -> new RuntimeException("Το κατάστημα με ΑΦΜ " + dto.getStoreAfm() + " δεν βρέθηκε!"));
-       
-        // 2. Έλεγχος αν το προϊόν υπάρχει ήδη (με βάση το type)
-        if (productRepository.existsById(dto.getType())) {
-            throw new RuntimeException("Το προϊόν '" + dto.getType() + "' υπάρχει ήδη!");
-        }
-        
-        // 3. Δημιουργία νέου προϊόντος
-        Product product = new Product();
-        product.setType(dto.getType());
-        product.setBrand(dto.getBrand());
-        product.setPrice(dto.getPrice());
-        product.setDescription(dto.getDescription());
-        product.setNumberOfProducts(dto.getNumberOfProducts());
-        product.setStore(store);
-        
-        // 4. Αποθήκευση
-        productRepository.save(product);
-        
-    }
+	public void addProductToStore(Integer storeAfm, AddProductDto dto) {
+	    // Το storeAfm έρχεται ως παράμετρος, όχι μέσα στο DTO
+	    Store store = storeRepository.findById(storeAfm).orElseThrow(() -> new RuntimeException("Το κατάστημα δεν βρέθηκε"));
+	    
+	    Product product = new Product();
+	    product.setType(dto.getType());
+	    product.setBrand(dto.getBrand());
+	    product.setPrice(dto.getPrice());
+	    product.setDescription(dto.getDescription());
+	    product.setNumberOfProducts(dto.getNumberOfProducts());
+	    product.setStore(store);
+	    
+	    productRepository.save(product);
+	}
 
 }

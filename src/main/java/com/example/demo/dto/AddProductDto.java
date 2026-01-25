@@ -6,10 +6,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 public class AddProductDto {
-	
-	//Αυτό πρέπει;
-	@NotNull(message = "Ο ΑΦΜ του καταστήματος είναι υποχρεωτικός")
-    private Integer storeAfm;
     
     @NotBlank(message = "Ο τύπος προϊόντος είναι υποχρεωτικός")
     private String type;
@@ -25,9 +21,6 @@ public class AddProductDto {
     
     @Min(value = 1, message = "Ο αριθμός προϊόντων πρέπει να είναι τουλάχιστον 1")
     private int numberOfProducts;
-    
-    public Integer getStoreAfm() { return storeAfm; }
-    public void setStoreAfm(Integer storeAfm) { this.storeAfm = storeAfm; }
     
     public String getType() { return type; }
     public void setType(String type) { this.type = type; }
