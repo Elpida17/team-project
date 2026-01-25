@@ -4,6 +4,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.*;
 
+import com.example.demo.entities.Product;
 import com.example.demo.entities.Store;
 import com.example.demo.repository.StoreRepository;
 
@@ -25,5 +26,15 @@ public class StoreService {
 	
 	public List<Store> getAllStores() {
 		return storeRepository.findAll();
+	}
+
+	public List<Product> getProductsPerStore(Integer storeAFM) {
+		Store store = storeRepository.findById(storeAFM).orElseThrow(() -> new RuntimeException("Το κατάσημα δεν υπάρχει"));
+		
+		List<Product> product = store.getProduct();
+		if (product == null) {
+			throw new RuntimeException("Το καλάθι είναι άδειο");
+		}
+		return product;
 	}
 }
