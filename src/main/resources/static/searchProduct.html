@@ -6,9 +6,15 @@
     <meta charset="UTF-8">
     <title>Αναζήτηση Προϊόντων</title>
 	<link rel="stylesheet" href="style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-
+    
+	<div class="cart-icon">
+	    <i class="fa-solid fa-cart-shopping"></i>
+	    <span id="cart-count">0</span>
+	</div>
+	
     <h2 style="text-align:center;">Αναζήτηση Προϊόντων</h2> 
 
 	<div class="searchTable">
@@ -42,26 +48,39 @@
 
     <table border="1" id="resultsTable">
 		<thead>
-            <tr>
-                <th>Τύπος</th>
-                <th>Μάρκα</th>
-                <th>Τιμή</th>
-                <th>Περιγραφή</th>
-                <th>Διαθεσιμότητα</th>
-            </tr>
+		    <tr>
+		        <th>Τύπος</th>
+		        <th>Μάρκα</th>
+		        <th>Τιμή</th>
+		        <th>Περιγραφή</th>
+		        <th>Διαθεσιμότητα</th>
+		        <th>Αγορά</th>
+		    </tr>
 		</thead>
 		<tbody id="resultsBody">
 			</tbody>
     </table>
 
     <script>
-        function searchProducts() {
-            var searchCriteria = {
-                "type": document.getElementById("type").value || null,
-                "brand": document.getElementById("brand").value || null,
-                "minPrice": parseFloat(document.getElementById("minPrice").value) || 0,
-                "maxPrice": parseFloat(document.getElementById("maxPrice").value) || 0
-            };
+		
+		let cartCount = 0;
+
+		function addToCart() {
+		    cartCount++;
+		    document.getElementById("cart-count").innerText = cartCount;
+		} 
+		
+		function searchProducts() {
+
+		    var minPriceValue = document.getElementById("minPrice").value;
+		    var maxPriceValue = document.getElementById("maxPrice").value;
+
+		    var searchCriteria = {
+		        type: document.getElementById("type").value || null,
+		        brand: document.getElementById("brand").value || null,
+		        minPrice: minPriceValue ? parseFloat(minPriceValue) : null,
+		        maxPrice: maxPriceValue ? parseFloat(maxPriceValue) : null
+		    };
 
             var settings = {
                 "url": "http://localhost:8080/search",
@@ -83,19 +102,44 @@
                 }
 
                 response.forEach(function(product) {
-                    var row = "<tr>" +
-                        "<td>" + product.type + "</td>" +
-                        "<td>" + product.brand + "</td>" +
-                        "<td>" + product.price + " €</td>" +
-                        "<td>" + product.description + "</td>" +
-                        "<td>" + product.numberOfProducts + " τεμ.</td>" +
-                        "</tr>";
+					var row = "<tr>" +
+					    "<td>" + product.type + "</td>" +
+					    "<td>" + product.brand + "</td>" +
+					    "<td>" + product.price + " €</td>" +
+					    "<td>" + product.description + "</td>" +
+					    "<td>" + product.numberOfProducts + " τεμ.</td>" +
+						"<td><button onclick='addProduct(\"" + product.type + "\")'>Προσθήκη</button></td>" +
+					    "</tr>";
                     tableBody.append(row);
                 });
             }).fail(function (jqXHR) {
                 alert("Σφάλμα κατά την αναζήτηση: " + jqXHR.status);
             });
         }
+		
+		function addProduct(producType) {
+
+		    var citizenAfm = 111222333; // προσωρινά, για τεστ
+
+		    $.ajax({
+		        url: "http://localhost:8080/cart/add",
+		        method: "POST",
+		        contentType: "application/json",
+		        data: JSON.stringify({
+		            citizenAfm: citizenAfm,
+		            productType: productType,
+		            quantity: 1
+		        })
+		    })
+		    .done(function () {
+		        addToCart(); // αυξάνει το εικονίδιο
+		        alert("Το προϊόν προστέθηκε στο καλάθι");
+		    })
+		    .fail(function (err) {
+		        console.error(err);
+		        alert("Αποτυχία προσθήκης στο καλάθι");
+		    });
+		}
     </script>
 
 </body>
