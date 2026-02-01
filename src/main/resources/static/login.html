@@ -24,34 +24,51 @@
         </nav>
     </div>
 	
-	<script>
-	        function addStore() {
-	            var storeData = {
-	                "afm": parseInt(document.getElementById("afm").value),
-	                "shopName": document.getElementById("shopName").value,
-	                "owner": document.getElementById("owner").value,
-	                "password": document.getElementById("password").value
-	            };
-
-	            var settings = {
-	                "url": "http://localhost:8080/storeRegister",
-	                "method": "POST", // Χρησιμοποιούμε POST γιατί έτσι το ορίσαμε στον Controller
-	                "timeout": 0,
-	                "headers": {
-	                    "Content-Type": "application/json"
-	                },
-	                "data": JSON.stringify(storeData) // Μετατρέπουμε το αντικείμενο σε κείμενο JSON
-	            };
-
-	            // Η κλήση AJAX της jQuery
-	            $.ajax(settings).done(function (response) {
-	                alert(response); 
-	                window.location.href = "login.html"; // Επιστροφή στη σύνδεση
-	            }).fail(function (jqXHR) {
-	                alert("Σφάλμα: " + jqXHR.responseText);
-	            });
-	        }
-	    </script>
+	<script> 
+	
+	$("#loginForm").submit(function(event) { 
+		event.preventDefault(); 
+		var loginData = { 
+			afm: $("#afm").val(), 
+			password: $("#password").val() 
+		}; $.ajax({ 
+			url: "http://localhost:8080/login", 
+			method: "POST", 
+			contentType: "application/json", 
+			data: JSON.stringify(loginData), 
+			success: function(response) { 
+				alert("Επιτυχής σύνδεση!"); 
+				window.location.href = "searchProduct.html"; 
+			}, 
+			error: function(xhr) { 
+				alert("Αποτυχία σύνδεσης: " + xhr.responseText); 
+			} 
+		}); 
+	}); 
+	function addStore() { 
+		var storeData = { 
+			"afm": parseInt(document.getElementById("afm").value), 
+			"shopName": document.getElementById("shopName").value, 
+			"owner": document.getElementById("owner").value, 
+			"password": document.getElementById("password").value 
+		};
+		var settings = { 
+			"url": "http://localhost:8080/storeRegister", 
+			"method": "POST", 
+			"timeout": 0, "headers": { 
+				"Content-Type": "application/json" 
+			}, 
+			"data": JSON.stringify(storeData) 
+		}; 
+		
+		$.ajax(settings).done(function (response) { 
+			alert(response); 
+			window.location.href = "login.html"; 
+		}).fail(function (jqXHR) { 
+			alert("Σφάλμα: " + jqXHR.responseText); 
+		}); 
+	} 
+</script>
 
 </body>
 </html>

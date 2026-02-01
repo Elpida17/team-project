@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.CitizenRegisterDto;
+import com.example.demo.dto.LoginRequestDto;
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.StoreRegisterDto;
 import com.example.demo.entities.Citizen;
 import com.example.demo.services.UserService;
@@ -23,12 +25,11 @@ public class UserController {
 		@Autowired
 		private UserService userService;
 
-		/*@PostMapping("/login")
+		@PostMapping("/login")
 		public LoginResponseDto login(@RequestBody LoginRequestDto dto) {
 			return userService.login(dto.afm, dto.password);
 		}
-		*/
-
+				
 		@PostMapping("/citizenRegister")
 		public String citizenRegister(@Valid @RequestBody CitizenRegisterDto dto) {
 		    // Στείλε ΟΛΟ το dto στο service
