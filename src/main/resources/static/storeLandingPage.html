@@ -1,0 +1,93 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Κατάστημα - Αρχική</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <h2 style="text-align:center;">Καλώς Ήρθατε</h2>
+    <h3 style="text-align:center;" id="storeName"></h3>
+
+    <div style="text-align:center; margin: 20px;">
+        <a href="#" id="manageInventoryBtn">
+            <button>Διαχείριση Αποθέματος</button>
+        </a>
+        <a href="addProductToStore.html">
+            <button>Προσθήκη Προϊόντος</button>
+        </a>
+        <a href="login.html">
+            <button style="background-color: #6c757d;">Αποσύνδεση</button>
+        </a>
+    </div>
+
+    <h3 style="text-align:center;">Τα Προϊόντα Μου</h3>
+
+    <table border="1" id="resultsTable">
+        <thead>
+            <tr>
+                <th>Τύπος</th>
+                <th>Μάρκα</th>
+                <th>Τιμή</th>
+                <th>Περιγραφή</th>
+                <th>Διαθεσιμότητα</th>
+            </tr>
+        </thead>
+        <tbody id="productsBody">
+        </tbody>
+    </table>
+
+    <script>
+        // Get store AFM from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const storeAfm = urlParams.get('storeAfm') || '121212121';
+
+        // Set manage inventory link
+        document.getElementById('manageInventoryBtn').href = 'storeInventory.html?storeAfm=' + storeAfm;
+
+        // Load products on page load
+        $(document).ready(function() {
+            loadProducts();
+        });
+
+        function loadProducts() {
+            $.ajax({
+                url: "http://localhost:8080/store/" + storeAfm + "/products",
+                method: "GET",
+                success: function(response) {
+                    var tableBody = $("#productsBody");
+                    tableBody.empty();
+
+                    // Show store name if available
+                    if (response.length > 0 && response[0].store) {
+                        $("#storeName").text(response[0].store.shopName);
+                    }
+
+                    if (response.length === 0) {
+                        tableBody.append("<tr><td colspan='5' style='text-align:center;'>Δεν υπάρχουν προϊόντα. Προσθέστε το πρώτο σας προϊόν!</td></tr>");
+                        return;
+                    }
+
+                    response.forEach(function(product) {
+                        var row = "<tr>" +
+                            "<td>" + product.type + "</td>" +
+                            "<td>" + product.brand + "</td>" +
+                            "<td>" + product.price + " €</td>" +
+                            "<td>" + product.description + "</td>" +
+                            "<td>" + product.numberOfProducts + " τεμ.</td>" +
+                            "</tr>";
+                        tableBody.append(row);
+                    });
+                },
+                error: function(jqXHR) {
+                    alert("Σφάλμα κατά τη φόρτωση: " + jqXHR.status);
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
