@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dto.CitizenRegisterDto;
+import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.StoreRegisterDto;
 import com.example.demo.entities.Citizen;
 import com.example.demo.entities.Store;
@@ -53,11 +54,18 @@ public class UserService {
         
         return "Ο πολίτης " + dto.firstName + " εγγράφηκε με επιτυχία!";
     }
-
-    /*// Κοινή μέθοδος Login (Παράδειγμα)
-    public Object login(String email, String password) {
-        return null; 
-    }*/
+    
+    public LoginResponseDto login(String afm, String password) { 
+    	Citizen citizen = citizenRepository.findByAfm(afm); 
+    	if (citizen == null) { 
+    		return new LoginResponseDto("Ο ΑΦΜ δεν βρέθηκε", null, null); 
+    	} 
+    	if (!citizen.getPassword().equals(password)) { 
+    		return new LoginResponseDto("Λάθος κωδικός", null, null); 
+    	} 
+    	String fullName = citizen.getFirstName() + " " + citizen.getSurName(); 
+    	return new LoginResponseDto("Επιτυχής σύνδεση", fullName, "citizen"); 
+    }
     
     public List<Citizen> getCitizens(){
     	return citizenRepository.findAll();
