@@ -1,0 +1,247 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Διαχείριση Αποθέματος</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="inventory-container">
+        <div class="header-section">
+            <h1>Διαχείριση Αποθέματος Καταστήματος</h1>
+            <p>Ενημερώστε τις ποσότητες των προϊόντων σας</p>
+        </div>
+
+        <div id="messageArea"></div>
+
+        <div class="store-info" id="storeInfo" style="display:none;">
+            <h3 id="storeName"></h3>
+            <p>ΑΦΜ: <span id="storeAfm"></span></p>
+        </div>
+
+        <div id="loadingArea" class="loading">
+            Φόρτωση προϊόντων...
+        </div>
+
+        <div id="productsArea" style="display:none;">
+            <table class="products-table">
+                <thead>
+                    <tr>
+                        <th>Προϊόν</th>
+                        <th>Τιμή</th>
+                        <th>Περιγραφή</th>
+                        <th>Τρέχουσα Ποσότητα</th>
+                        <th>Διαχείριση</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="emptyState" class="empty-state" style="display:none;">
+            <div style="font-size: 48px; margin-bottom: 20px;">📭</div>
+            <h3>Δεν υπάρχουν προϊόντα</h3>
+            <p>Το κατάστημά σας δεν έχει ακόμα προϊόντα.</p>
+        </div>
+
+        <a href="login.html" class="back-btn">← Επιστροφή στην Σύνδεση</a>
+    </div>
+
+    <script>
+        // Get store AFM from URL parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const storeAfm = urlParams.get('storeAfm') || '121212121'; // Default for testing
+
+        let products = [];
+        let changedProducts = new Set();
+
+        $(document).ready(function() {
+            loadStoreProducts();
+        });
+
+        function loadStoreProducts() {
+            $('#loadingArea').show();
+            $('#productsArea').hide();
+            $('#emptyState').hide();
+
+            $.ajax({
+                url: `http://localhost:8080/store/${storeAfm}/products`,
+                method: 'GET',
+                success: function(response) {
+                    $('#loadingArea').hide();
+                    products = response;
+
+                    if (products.length === 0) {
+                        $('#emptyState').show();
+                    } else {
+                        displayProducts();
+                        $('#productsArea').show();
+                    }
+
+                    // Show store info if available
+                    if (products.length > 0 && products[0].store) {
+                        $('#storeInfo').show();
+                        $('#storeName').text(products[0].store.shopName || 'Κατάστημα');
+                        $('#storeAfm').text(storeAfm);
+                    }
+                },
+                error: function(jqXHR) {
+                    $('#loadingArea').hide();
+                    showMessage('Σφάλμα κατά τη φόρτωση των προϊόντων: ' + 
+                        (jqXHR.responseText || 'Το κατάστημα δεν βρέθηκε'), 'error');
+                }
+            });
+        }
+
+        function displayProducts() {
+            const tbody = $('#productsTableBody');
+            tbody.empty();
+
+            products.forEach((product, index) => {
+                const row = `
+                    <tr id="product-row-${index}" data-product-type="${product.type}">
+                        <td>
+                            <div class="product-info">
+                                <span class="product-type">${product.type}</span>
+                                <span class="product-brand">${product.brand}</span>
+                            </div>
+                        </td>
+                        <td><span class="product-price">${product.price.toFixed(2)} €</span></td>
+                        <td>${product.description || '-'}</td>
+                        <td>
+                            <div class="quantity-display" id="qty-display-${index}">
+                                ${product.numberOfProducts}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="quantity-controls">
+                                <button class="quantity-btn decrease" 
+                                        onclick="decreaseQuantity(${index})"
+                                        title="Μείωση">
+                                    −
+                                </button>
+                                <button class="quantity-btn" 
+                                        onclick="increaseQuantity(${index})"
+                                        title="Αύξηση">
+                                    +
+                                </button>
+                                <button class="save-btn" 
+                                        id="save-btn-${index}"
+                                        onclick="saveQuantity(${index})"
+                                        style="display:none;">
+                                    Αποθήκευση
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+        }
+
+        function increaseQuantity(index) {
+            products[index].numberOfProducts++;
+            updateQuantityDisplay(index);
+            markAsChanged(index);
+        }
+
+        function decreaseQuantity(index) {
+            if (products[index].numberOfProducts > 0) {
+                products[index].numberOfProducts--;
+                updateQuantityDisplay(index);
+                markAsChanged(index);
+            } else {
+                showMessage('Η ποσότητα δεν μπορεί να είναι αρνητική!', 'error');
+            }
+        }
+
+        function updateQuantityDisplay(index) {
+            $(`#qty-display-${index}`).text(products[index].numberOfProducts);
+        }
+
+        function markAsChanged(index) {
+            changedProducts.add(index);
+            $(`#save-btn-${index}`).show();
+            $(`#product-row-${index}`).addClass('changed-indicator');
+            
+            // Remove indicator after animation
+            setTimeout(() => {
+                $(`#product-row-${index}`).removeClass('changed-indicator');
+            }, 500);
+        }
+
+        function saveQuantity(index) {
+            const product = products[index];
+            const saveBtn = $(`#save-btn-${index}`);
+            
+            saveBtn.prop('disabled', true).text('Αποθήκευση...');
+
+            $.ajax({
+                url: `http://localhost:8080/product/${encodeURIComponent(product.type)}/quantity?quantity=${product.numberOfProducts}`,
+                method: 'PUT',
+                success: function(response) {
+                    showMessage(response, 'success');
+                    saveBtn.hide().prop('disabled', false).text('Αποθήκευση');
+                    changedProducts.delete(index);
+                },
+                error: function(jqXHR) {
+                    showMessage('Σφάλμα: ' + (jqXHR.responseText || 'Αποτυχία ενημέρωσης'), 'error');
+                    saveBtn.prop('disabled', false).text('Αποθήκευση');
+                }
+            });
+        }
+
+        function saveAllChanges() {
+            if (changedProducts.size === 0) {
+                showMessage('Δεν υπάρχουν αλλαγές για αποθήκευση', 'error');
+                return;
+            }
+
+            let completed = 0;
+            const total = changedProducts.size;
+
+            changedProducts.forEach(index => {
+                const product = products[index];
+
+                $.ajax({
+                    url: `http://localhost:8080/product/${encodeURIComponent(product.type)}/quantity?quantity=${product.numberOfProducts}`,
+                    method: 'PUT',
+                    success: function() {
+                        completed++;
+                        if (completed === total) {
+                            showMessage(`Όλες οι αλλαγές (${total}) αποθηκεύτηκαν επιτυχώς!`, 'success');
+                            changedProducts.clear();
+                            $('.save-btn').hide();
+                        }
+                    },
+                    error: function(jqXHR) {
+                        showMessage(`Σφάλμα κατά την αποθήκευση του ${product.type}`, 'error');
+                    }
+                });
+            });
+        }
+
+        function showMessage(message, type) {
+            const messageClass = type === 'error' ? 'error-message' : 'success-message';
+            const messageHtml = `<div class="${messageClass}">${message}</div>`;
+            
+            $('#messageArea').html(messageHtml);
+            
+            // Auto-hide success messages after 3 seconds
+            if (type === 'success') {
+                setTimeout(() => {
+                    $('#messageArea').fadeOut(function() {
+                        $(this).html('').show();
+                    });
+                }, 3000);
+            }
+        }
+    </script>
+
+</body>
+</html>

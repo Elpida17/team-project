@@ -19,15 +19,7 @@ public class ProductService {
 	
 	@Autowired
 	private StoreRepository storeRepository;
-/*
-	public void addProductToStore(Product pt) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	 
-	 public void updateNumberOfProducts(){
-	 }*/
 	 
 	public List<Product> searchProducts(String type, String brand, Double minPrice, Double maxPrice) {
 	    return productRepository.search(type, brand, minPrice, maxPrice);
@@ -51,6 +43,40 @@ public class ProductService {
 	    product.setStore(store);
 	    
 	    productRepository.save(product);
+	}
+	
+	// Get all products for a specific store
+	public List<Product> getProductsByStore(Integer storeAfm) {
+		Store store = storeRepository.findById(storeAfm)
+				.orElseThrow(() -> new RuntimeException("Το κατάστημα δεν βρέθηκε"));
+		return store.getProduct();
+	}
+	
+	// Update product quantity
+	public void updateProductQuantity(String productType, int newQuantity) {
+		if (newQuantity < 0) {
+			throw new RuntimeException("Η ποσότητα δεν μπορεί να είναι αρνητική");
+		}
+			
+		Product product = productRepository.findById(productType)
+			.orElseThrow(() -> new RuntimeException("Το προϊόν δεν βρέθηκε"));
+			
+		product.setNumberOfProducts(newQuantity);
+		productRepository.save(product);
+	}
+		
+	// Add product to store
+	public void addProductToStore(Integer storeAfm, Product product) {
+		Store store = storeRepository.findById(storeAfm)
+			.orElseThrow(() -> new RuntimeException("Το κατάστημα δεν βρέθηκε"));
+			
+		// Check if product type already exists
+		if (productRepository.findById(product.getType()).isPresent()) {
+			throw new RuntimeException("Το προϊόν με αυτόν τον τύπο υπάρχει ήδη");
+		}
+			
+		product.setStore(store);
+		productRepository.save(product);
 	}
 
 }
