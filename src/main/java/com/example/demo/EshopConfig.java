@@ -38,10 +38,10 @@ public class EshopConfig implements CommandLineRunner{
         storeRepository.save(store2);
         
         //Create product1, product2, product3 and product4
-        Product product1 = new Product("Laptop", "HP", 750.0, "description of Laptop HP", 10, store1);
-        Product product2 = new Product("SmartPhone", "Iphone", 1100.00, "description of Smartphone Iphone", 5, store1);
-        Product product3 = new Product("Toy", "Barbie", 15.0, "description of Toy Barbie", 35, store2);
-        Product product4 = new Product("Cup", "Cup", 5.0, "description of Cup Cup", 60, store2);
+        Product product1 = new Product("Laptop", "HP", 750.0, "HP Laptop 15s – released in 2021, lightweight and ideal for students", 10, store1);
+        Product product2 = new Product("SmartPhone", "Iphone", 1100.00, "iPhone 14 Pro - released in 2022 with advanced camera system", 5, store1);
+        Product product3 = new Product("Toy", "Barbie", 15.0, "Barbie Mermaid", 35, store2);
+        Product product4 = new Product("Cup", "Cup", 5.0, "Ceramic cup – dishwasher safe", 60, store2);
         productRepository.save(product1);
         productRepository.save(product2);
         productRepository.save(product3);
