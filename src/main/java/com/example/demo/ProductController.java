@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.dto.AddProductDto;
@@ -63,6 +65,31 @@ public class ProductController {
 				return ResponseEntity.ok(store);
 			}catch (RuntimeException e) {
 				return ResponseEntity.status(404).body(null);			}
+		}
+		
+		
+		// Get products by store AFM
+		@GetMapping("/store/{storeAfm}/products")
+		public ResponseEntity<List<Product>> getProductsByStore(@PathVariable Integer storeAfm) {
+			try {
+				List<Product> products = productService.getProductsByStore(storeAfm);
+				return ResponseEntity.ok(products);
+			} catch (RuntimeException e) {
+				return ResponseEntity.status(404).body(null);
+			}
+		}
+		
+		// Update product quantity
+		@PutMapping("/product/{productType}/quantity")
+		public ResponseEntity<String> updateProductQuantity(
+				@PathVariable String productType, 
+				@RequestParam int quantity) {
+			try {
+				productService.updateProductQuantity(productType, quantity);
+				return ResponseEntity.ok("Η ποσότητα ενημερώθηκε επιτυχώς!");
+			} catch (RuntimeException e) {
+				return ResponseEntity.status(400).body("Σφάλμα: " + e.getMessage());
+			}
 		}
 
 }
