@@ -1,0 +1,42 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Πολίτης - Αρχική</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="login-container">
+        <h2>Καλώς Ήρθατε</h2>
+        <a href="searchProduct.html">
+            <button>Αναζήτηση Προϊόντων</button>
+        </a>
+        <a href="#" id="viewCartBtn">
+            <button>Το Καλάθι Μου</button>
+        </a>
+        <a href="login.html">
+            <button style="background-color: #6c757d;">Αποσύνδεση</button>
+        </a>
+    </div>
+
+    <script>
+        // Get citizen AFM from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const citizenAfm = urlParams.get('citizenAfm') || '111222333';
+
+        // Set cart link with citizen AFM
+        document.getElementById('viewCartBtn').href = 'viewCart.html?citizenAfm=' + citizenAfm;
+
+        // Optionally, load and display citizen name
+        $(document).ready(function() {
+            // You can add a call here to get citizen details if you want
+            // For now, just show AFM
+            $("#citizenName").text("ΑΦΜ: " + citizenAfm);
+        });
+    </script>
+
+</body>
+</html>
