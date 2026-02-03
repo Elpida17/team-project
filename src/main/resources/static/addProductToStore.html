@@ -13,8 +13,7 @@
         <h2>Προσθήκη Νέου Προϊόντος</h2>
         
         <div class="store-info" id="storeInfo">
-            Κατάστημα: <strong id="storeName">Φόρτωση...</strong><br>
-            ΑΦΜ: <strong id="storeAfmDisplay"></strong>
+            ΑΦΜ Καταστήματος: <strong id="storeAfmDisplay"></strong>
         </div>
 
         <div id="messageArea"></div>
@@ -59,7 +58,7 @@
         const storeAfm = urlParams.get('storeAfm') || '121212121';
 
         // Set back button and display AFM
-        document.getElementById('backBtn').href = 'storeDashboard.html?storeAfm=' + storeAfm;
+        document.getElementById('backBtn').href = 'storeLandingPage.html?storeAfm=' + storeAfm;
         document.getElementById('storeAfmDisplay').textContent = storeAfm;
 
         // Load store name
