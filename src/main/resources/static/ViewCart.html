@@ -1,0 +1,156 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Το Καλάθι Μου</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="inventory-container">
+        <div class="header-section">
+            <h1>Το Καλάθι Αγορών</h1>
+            <p>Δείτε και επεξεργαστείτε τα προϊόντα σας</p>
+        </div>
+
+        <div id="messageArea"></div>
+
+        <div id="loadingArea" class="loading">
+            Φόρτωση καλαθιού...
+        </div>
+
+        <div id="cartArea" style="display:none;">
+            <table class="products-table" id="resultsTable">
+                <thead>
+                    <tr>
+                        <th>Προϊόν</th>
+                        <th>Μάρκα</th>
+                        <th>Τιμή Μονάδας</th>
+                        <th>Ποσότητα</th>
+                        <th>Σύνολο</th>
+                        <th>Ενέργεια</th>
+                    </tr>
+                </thead>
+                <tbody id="cartTableBody">
+                </tbody>
+            </table>
+
+            <div class="store-info" style="margin-top: 20px; text-align: right; padding: 20px;">
+                <h3 style="font-size: 24px;">Συνολικό Ποσό: <span id="totalCartPrice" style="color: #28a745;">0.00</span> €</h3>
+                <button id="checkoutBtn" onclick="processCheckout()" style="width: 250px; background-color: #28a745; margin-top: 15px;">Ολοκλήρωση Αγοράς</button>
+            </div>
+        </div>
+
+        <div id="emptyCart" class="empty-state" style="display:none;">
+            <div style="font-size: 48px; margin-bottom: 20px;">🛒</div>
+            <h3>Το καλάθι σας είναι άδειο</h3>
+            <p>Δεν έχετε προσθέσει ακόμα προϊόντα.</p>
+            <a href="searchProduct.html" class="back-btn" style="background-color: #007bff;">Πίσω στα Προϊόντα</a>
+        </div>
+
+        <nav style="text-align: center; margin-top: 20px;">
+            <a href="#" id="backBtn" class="back-btn">Επιστροφή στην Αρχική</a>
+        </nav>
+    </div>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const citizenAfm = urlParams.get('citizenAfm') || '111222333';
+
+        document.getElementById('backBtn').href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
+
+        $(document).ready(function() {
+            loadCart();
+        });
+
+        function loadCart() {
+            $('#loadingArea').show();
+            $('#cartArea').hide();
+            $('#emptyCart').hide();
+
+            $.ajax({
+                url: "http://localhost:8080/cart/view/" + citizenAfm,
+                method: "GET",
+                success: function(cart) {
+                    $('#loadingArea').hide();
+                    if (!cart || !cart.products || cart.products.length === 0) {
+                        $('#emptyCart').show();
+                        return;
+                    }
+                    displayCartItems(cart);
+                    $('#cartArea').show();
+                },
+                error: function() {
+                    $('#loadingArea').hide();
+                    $('#emptyCart').show();
+                }
+            });
+        }
+
+        function displayCartItems(cart) {
+            const tbody = $('#cartTableBody');
+            tbody.empty();
+
+            cart.products.forEach(item => {
+                const itemTotal = item.product.price * item.quantity;
+                const row = `
+                    <tr>
+                        <td><span class="product-type">${item.product.type}</span></td>
+                        <td>${item.product.brand}</td>
+                        <td><span class="product-price">${item.product.price.toFixed(2)} €</span></td>
+                        <td><strong>${item.quantity}</strong></td>
+                        <td><strong>${itemTotal.toFixed(2)} €</strong></td>
+                        <td>
+                            <button onclick="removeFromCart('${item.product.type}')" 
+                                    style="background-color: #dc3545; width: auto; padding: 5px 10px;">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.append(row);
+            });
+
+            $('#totalCartPrice').text(cart.total_price.toFixed(2));
+        }
+
+        function removeFromCart(productType) {
+            if (!confirm("Θέλετε να αφαιρέσετε το προϊόν από το καλάθι;")) return;
+
+            $.ajax({
+                url: "http://localhost:8080/cart/remove?citizenAfm=" + citizenAfm + "&productType=" + productType,
+                method: "DELETE",
+                success: function() {
+                    loadCart(); // Επαναφόρτωση για να δούμε το ανανεωμένο καλάθι
+                },
+                error: function(xhr) {
+                    alert("Σφάλμα κατά τη διαγραφή: " + xhr.responseText);
+                }
+            });
+        }
+
+        function processCheckout() {
+            const checkoutBtn = $('#checkoutBtn');
+            checkoutBtn.prop('disabled', true).text('Επεξεργασία...');
+
+            $.ajax({
+                url: "http://localhost:8080/api/orders/checkout",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ afm: parseInt(citizenAfm) }),
+                success: function(response) {
+                    alert("Η παραγγελία ολοκληρώθηκε επιτυχώς! Αριθμός Παραγγελίας: " + response.id);
+                    window.location.href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
+                },
+                error: function(xhr) {
+                    alert("Σφάλμα κατά την ολοκλήρωση: " + xhr.responseText);
+                    checkoutBtn.prop('disabled', false).text('Ολοκλήρωση Αγοράς');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

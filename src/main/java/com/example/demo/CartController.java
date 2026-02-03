@@ -31,4 +31,10 @@ public class CartController {
             return ResponseEntity.status(404).body(null);
         }
     }
+    
+    @DeleteMapping("/remove")
+    public ResponseEntity<String> removeFromCart(@RequestParam int citizenAfm, @RequestParam String productType) {
+        cartService.removeItemFromCart(citizenAfm, productType);
+        return ResponseEntity.ok("Το προϊόν αφαιρέθηκε.");
+    }
 }
