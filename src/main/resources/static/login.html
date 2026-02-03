@@ -67,6 +67,21 @@
 		}).fail(function (jqXHR) { 
 			alert("Σφάλμα: " + jqXHR.responseText); 
 		}); 
+		
+		$.ajax(settings).done(function(response) {
+		    // Redirect based on user type
+		    if (response.role === 'store') {
+		    	// Redirect to store dashboard
+		   	 	window.location.href = 'storeDashboard.html?storeAfm=' + afm;
+		    } else if (response.role === 'citizen') {
+		    	// Redirect to citizen landing page
+		    	window.location.href = 'citizenLandingPage.html?citizenAfm=' + afm;
+		    } else {
+		    	alert("Λάθος ΑΦΜ ή κωδικός");
+	       }
+		}).fail(function(jqXHR) {
+		    alert("Λάθος ΑΦΜ ή κωδικός");
+		});
 	} 
 </script>
 
