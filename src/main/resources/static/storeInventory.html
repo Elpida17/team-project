@@ -49,7 +49,7 @@
             <p>Το κατάστημά σας δεν έχει ακόμα προϊόντα.</p>
         </div>
 
-        <a href='#' class="back-btn">← Επιστροφή στην Αρχική οθόνη καταασήματος</a>
+        <a href='#' id="backBtn" class="back-btn">← Επιστροφή στην Αρχική οθόνη κατασήματος</a>
     </div>
 
     <script>
@@ -57,7 +57,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const storeAfm = urlParams.get('storeAfm') || '121212121'; // Default for testing
 		
-		document.getElementById('back-btn').href = 'storeLandingPage.html?storeAfm=' + storeAfm;
+		document.getElementById('backBtn').href = 'storeLandingPage.html?storeAfm=' + storeAfm;
 		
         let products = [];
         let changedProducts = new Set();
