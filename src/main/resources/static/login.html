@@ -37,9 +37,17 @@
 			contentType: "application/json", 
 			data: JSON.stringify(loginData), 
 			success: function(response) { 
-				alert("Επιτυχής σύνδεση!"); 
-				window.location.href = "searchProduct.html"; 
-			}, 
+			    
+			    alert(response.message); 
+			    
+			    if (response.role === 'citizen') {
+			        
+			        window.location.href = "searchProduct.html?citizenAfm=" + response.afm; 
+			    } else if (response.role === 'store') {
+			        
+			        window.location.href = "storeDashboard.html?storeAfm=" + response.afm; 
+			    }
+			},
 			error: function(xhr) { 
 				alert("Αποτυχία σύνδεσης: " + xhr.responseText); 
 			} 

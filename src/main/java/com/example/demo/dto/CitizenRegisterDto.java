@@ -24,5 +24,11 @@ public class CitizenRegisterDto {
     @NotBlank(message="Το πεδίο password είναι υποχρεωτικό")
     @Size(min = 4, message = "Το password πρέπει να έχει τουλάχιστον 4 χαρακτήρες")
     public String password;
+    
+    public int getAfm() { return afm; }
+    public String getFirstName() { return firstName; }
+    public String getSurName() { return surName; }
+    public String getEmail() { return email; }
+    public String getPassword() { return password; }
 }
 

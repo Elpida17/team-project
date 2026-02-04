@@ -22,5 +22,11 @@ public class StoreRegisterDto {
     @NotBlank(message="Το πεδίο password είναι υποχρεωτικό")
     @Size(min = 4, message = "Το password πρέπει να έχει τουλάχιστον 4 χαρακτήρες")
     public String password;
+    
+ //  Getters 
+    public int getAfm() { return afm; }
+    public String getShopName() { return shopName; }
+    public String getOwner() { return owner; }
+    public String getPassword() { return password; }
 
 }

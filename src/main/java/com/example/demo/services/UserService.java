@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.Id;
 
@@ -24,48 +25,68 @@ public class UserService {
     @Autowired
     private StoreRepository storeRepository;
 
+    public LoginResponseDto login(Integer afm, String password) {
+        // 1. Αναζήτηση στους Πολίτες
+        Optional<Citizen> citizenOpt = citizenRepository.findById(afm);
+        if (citizenOpt.isPresent()) {
+            Citizen citizen = citizenOpt.get();
+            if (citizen.getPassword().equals(password)) {
+                return new LoginResponseDto("Επιτυχής σύνδεση ως Πολίτης", "citizen", citizen.getAfm());
+            } else {
+                return new LoginResponseDto("Λάθος κωδικός πρόσβασης", null, null);
+            }
+        }
+
+        
+        Optional<Store> storeOpt = storeRepository.findById(afm);
+        if (storeOpt.isPresent()) {
+            Store store = storeOpt.get();
+            if (store.getPassword().equals(password)) {
+                // Σωστή σειρά: Message, Role, Integer AFM
+                return new LoginResponseDto("Επιτυχής σύνδεση ως Κατάστημα", "store", store.getAfm());
+            } else {
+                return new LoginResponseDto("Λάθος κωδικός πρόσβασης", null, null);
+            }
+        }
+
+        
+        return new LoginResponseDto("Ο ΑΦΜ δεν βρέθηκε στο σύστημα", null, null);
+    }
+
+   
     // Εγγραφή Μαγαζιού
     public String storeRegister(StoreRegisterDto dto) {
-        Store store = new Store();
+    	if (storeRepository.existsById(dto.getAfm())) {
+            throw new RuntimeException("Το ΑΦΜ του μαγαζιού αυτού υπάρχει ήδη.");
+    	}
+        Store store = new Store(); 
         
-        store.setAfm(dto.afm);
-        store.setShopName(dto.shopName);
-        store.setOwner(dto.owner);
-        store.setPassword(dto.password);
-  
+        store.setAfm(dto.getAfm());        
+        store.setShopName(dto.getShopName());
+        store.setOwner(dto.getOwner());
+        store.setPassword(dto.getPassword());
+        
         storeRepository.save(store);
         
         return "Το κατάστημα " + dto.shopName + " δημιουργήθηκε επιτυχώς!";
     }
     // Εγγραφή Πολίτη
     public String citizenRegister(CitizenRegisterDto dto) {
-        // 1. Φτιάχνουμε ένα νέο αντικείμενο Citizen (Entity)
+        if (citizenRepository.existsById(dto.getAfm())) {
+            throw new RuntimeException("Το ΑΦΜ υπάρχει ήδη.");
+        }
         Citizen citizen = new Citizen();
-        
-        // 2. Μεταφέρουμε τα δεδομένα από το DTO στο Entity
-        citizen.setAfm(dto.afm); 
-        citizen.setFirstName(dto.firstName);
-        citizen.setSurName(dto.surName);
-        citizen.setEmail(dto.email);
-        citizen.setPassword(dto.password);
-        
-        //Αποθηκεύεται στη βάση μέσω του Repository
+        citizen.setAfm(dto.getAfm());
+        citizen.setFirstName(dto.getFirstName());
+        citizen.setSurName(dto.getSurName());
+        citizen.setEmail(dto.getEmail());
+        citizen.setPassword(dto.getPassword());
         citizenRepository.save(citizen);
-        
+    
         return "Ο πολίτης " + dto.firstName + " εγγράφηκε με επιτυχία!";
     }
     
-    public LoginResponseDto login(String afm, String password) { 
-    	Citizen citizen = citizenRepository.findByAfm(afm); 
-    	if (citizen == null) { 
-    		return new LoginResponseDto("Ο ΑΦΜ δεν βρέθηκε", null, null); 
-    	} 
-    	if (!citizen.getPassword().equals(password)) { 
-    		return new LoginResponseDto("Λάθος κωδικός", null, null); 
-    	} 
-    	String fullName = citizen.getFirstName() + " " + citizen.getSurName(); 
-    	return new LoginResponseDto("Επιτυχής σύνδεση", fullName, "citizen"); 
-    }
+    
     
     public List<Citizen> getCitizens(){
     	return citizenRepository.findAll();
