@@ -60,10 +60,17 @@
 		<tbody id="resultsBody">
 			</tbody>
     </table>
-
+	
+	<div>
+		<nav style="text-align: center; margin-top: 20px;">
+		     <a href="#" id="backBtn" class="back-btn">Επιστροφή στην Αρχική</a>
+		</nav>
+	</div>
 	<script>
-	    let cartCount = 0;
-
+		document.getElementById('backBtn').href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
+		
+		let cartCount = 0;
+		
 	    function addToCart() {
 	        cartCount++;
 	        document.getElementById("cart-count").innerText = cartCount;
