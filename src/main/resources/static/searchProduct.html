@@ -41,9 +41,8 @@
 		</table>
     </div>
 
-        <div>
-            <button id="searchButton" onclick="searchProducts()">Αναζήτηση </button>
-        </div>
+    <div>
+         <button id="searchButton" onclick="searchProducts()">Αναζήτηση </button>
     </div>
 
     <table border="1" id="resultsTable">
@@ -67,6 +66,9 @@
 		</nav>
 	</div>
 	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+		const citizenAfm = urlParams.get('citizenAfm');
+
 		document.getElementById('backBtn').href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
 		
 		let cartCount = 0;
