@@ -42,10 +42,10 @@
 			    
 			    if (response.role === 'citizen') {
 			        
-			        window.location.href = "searchProduct.html?citizenAfm=" + response.afm; 
+			        window.location.href = "citizenLandingPage.html?citizenAfm=" + response.afm; 
 			    } else if (response.role === 'store') {
 			        
-			        window.location.href = "storeDashboard.html?storeAfm=" + response.afm; 
+			        window.location.href = "storeLandingPage.html?storeAfm=" + response.afm; 
 			    }
 			},
 			error: function(xhr) { 
@@ -80,7 +80,7 @@
 		    // Redirect based on user type
 		    if (response.role === 'store') {
 		    	// Redirect to store dashboard
-		   	 	window.location.href = 'storeDashboard.html?storeAfm=' + afm;
+		   	 	window.location.href = 'storeLandingPage.html?storeAfm=' + afm;
 		    } else if (response.role === 'citizen') {
 		    	// Redirect to citizen landing page
 		    	window.location.href = 'citizenLandingPage.html?citizenAfm=' + afm;

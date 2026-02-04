@@ -136,11 +136,6 @@
                     showMessage(response, "success");
                     document.getElementById("addProductForm").reset();
                     submitBtn.prop('disabled', false).text('Προσθήκη Προϊόντος');
-                    
-                    // Optional: Redirect to dashboard after 2 seconds
-                    setTimeout(function() {
-                        window.location.href = 'storeDashboard.html?storeAfm=' + storeAfm;
-                    }, 2000);
                 },
                 error: function(jqXHR) {
                     var errorMsg = jqXHR.responseText || "Αποτυχία προσθήκης προϊόντος";

@@ -49,14 +49,16 @@
             <p>Το κατάστημά σας δεν έχει ακόμα προϊόντα.</p>
         </div>
 
-        <a href="login.html" class="back-btn">← Επιστροφή στην Σύνδεση</a>
+        <a href='#' class="back-btn">← Επιστροφή στην Αρχική οθόνη καταασήματος</a>
     </div>
 
     <script>
         // Get store AFM from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
         const storeAfm = urlParams.get('storeAfm') || '121212121'; // Default for testing
-
+		
+		document.getElementById('back-btn').href = 'storeLandingPage.html?storeAfm=' + storeAfm;
+		
         let products = [];
         let changedProducts = new Set();
 
