@@ -11,7 +11,7 @@
 
     <div class="login-container">
         <h2>Καλώς Ήρθατε</h2>
-        <a href="searchProduct.html">
+        <a href="#" id="searchProductBtn">
             <button>Αναζήτηση Προϊόντων</button>
         </a>
         <a href="#" id="viewCartBtn">
@@ -29,6 +29,7 @@
 
         // Set cart link with citizen AFM
         document.getElementById('viewCartBtn').href = 'viewCart.html?citizenAfm=' + citizenAfm;
+		document.getElementById('searchProductBtn').href = 'searchProduct.html?citizenAfm=' + citizenAfm;
 
         // Optionally, load and display citizen name
         $(document).ready(function() {
