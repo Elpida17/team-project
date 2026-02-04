@@ -19,8 +19,8 @@ public class Cart {
 	@JsonIgnoreProperties("cart")
 	private Citizen citizen;
 	
-	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-	@JsonIgnoreProperties("cart")
+	@OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true) 
+	@JsonIgnoreProperties("cart") 
 	private List<CartItem> products;
 	
 	private double total_price;
