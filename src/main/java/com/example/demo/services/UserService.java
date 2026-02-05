@@ -26,7 +26,7 @@ public class UserService {
     private StoreRepository storeRepository;
 
     public LoginResponseDto login(Integer afm, String password) {
-        // 1. Αναζήτηση στους Πολίτες
+        // Search for Citizen
         Optional<Citizen> citizenOpt = citizenRepository.findById(afm);
         if (citizenOpt.isPresent()) {
             Citizen citizen = citizenOpt.get();
@@ -42,7 +42,6 @@ public class UserService {
         if (storeOpt.isPresent()) {
             Store store = storeOpt.get();
             if (store.getPassword().equals(password)) {
-                // Σωστή σειρά: Message, Role, Integer AFM
                 return new LoginResponseDto("Επιτυχής σύνδεση ως Κατάστημα", "store", store.getAfm());
             } else {
                 return new LoginResponseDto("Λάθος κωδικός πρόσβασης", null, null);
@@ -54,7 +53,7 @@ public class UserService {
     }
 
    
-    // Εγγραφή Μαγαζιού
+    // Store Register
     public String storeRegister(StoreRegisterDto dto) {
     	if (storeRepository.existsById(dto.getAfm())) {
             throw new RuntimeException("Το ΑΦΜ του μαγαζιού αυτού υπάρχει ήδη.");
@@ -70,7 +69,7 @@ public class UserService {
         
         return "Το κατάστημα " + dto.shopName + " δημιουργήθηκε επιτυχώς!";
     }
-    // Εγγραφή Πολίτη
+    // Citizen Register
     public String citizenRegister(CitizenRegisterDto dto) {
         if (citizenRepository.existsById(dto.getAfm())) {
             throw new RuntimeException("Το ΑΦΜ υπάρχει ήδη.");

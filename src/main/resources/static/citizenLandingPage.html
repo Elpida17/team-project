@@ -31,10 +31,8 @@
         document.getElementById('viewCartBtn').href = 'viewCart.html?citizenAfm=' + citizenAfm;
 		document.getElementById('searchProductBtn').href = 'searchProduct.html?citizenAfm=' + citizenAfm;
 
-        // Optionally, load and display citizen name
         $(document).ready(function() {
-            // You can add a call here to get citizen details if you want
-            // For now, just show AFM
+
             $("#citizenName").text("ΑΦΜ: " + citizenAfm);
         });
     </script>

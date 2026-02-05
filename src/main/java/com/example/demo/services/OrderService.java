@@ -53,16 +53,16 @@ public class OrderService {
             Product product = cartItem.getProduct();
             int quantityOrdered = cartItem.getQuantity();
 
-            // 1. ΕΛΕΓΧΟΣ ΑΠΟΘΕΜΑΤΟΣ
+            // Quantity check
             if (product.getNumberOfProducts() < quantityOrdered) {
                 throw new RuntimeException("Ανεπαρκές απόθεμα για το προϊόν: " + product.getType());
             }
 
-            // 2. ΜΕΙΩΣΗ ΑΠΟΘΕΜΑΤΟΣ ΣΤΗ ΒΑΣΗ
+            //Decrease quantity
             product.setNumberOfProducts(product.getNumberOfProducts() - quantityOrdered);
             productRepository.save(product);
 
-            // 3. ΔΗΜΙΟΥΡΓΙΑ ORDER ITEM
+            // Create ORDER ITEM
             OrderItem orderItem = new OrderItem();
             orderItem.setProduct(product);
             orderItem.setQuantity(quantityOrdered);
@@ -75,7 +75,7 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-        // 4. ΚΑΘΑΡΙΣΜΟΣ ΚΑΛΑΘΙΟΥ
+        // Clear Cart
         cart.getProducts().clear();
         cart.setTotal_price(0.0);
         cartRepository.save(cart);

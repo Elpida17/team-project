@@ -21,27 +21,20 @@ public class OrderController {
     @Autowired
     private CitizenRepository citizenRepository;
 
-    /**
-     * Endpoint για το Checkout.
-     * Δέχεται ένα JSON με το AFM, π.χ. { "afm": 111222333 }
-     */
+    /*Endpoint for the Checkout*/
     @PostMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestBody Map<String, Integer> payload) {
         Integer afm = payload.get("afm");
         
-        // 1. Βρίσκουμε τον Citizen από τη βάση δεδομένων
         Citizen citizen = citizenRepository.findById(afm)
                 .orElseThrow(() -> new RuntimeException("Ο πολίτης με ΑΦΜ " + afm + " δεν βρέθηκε."));
 
-        // 2. Εκτελούμε το Checkout μέσω του Service (που έχει την @Transactional)
         Order finalOrder = orderService.createOrderFromCart(citizen);
         
         return ResponseEntity.ok(finalOrder);
     }
 
-    /**
-     * Endpoint για το Ιστορικό Παραγγελιών
-     */
+    /*Endpoint for the history of orders*/
     @GetMapping("/history/{afm}")
     public ResponseEntity<List<Order>> getOrderHistory(@PathVariable Integer afm) {
         List<Order> history = orderService.getOrdersByCitizen(afm);

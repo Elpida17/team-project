@@ -8,7 +8,6 @@ public class AddToCartDto {
    
     public AddToCartDto() {}
 
-    // Getters και Setters
     public Integer getCitizenAfm() { return citizenAfm; }
     public void setCitizenAfm(Integer citizenAfm) { this.citizenAfm = citizenAfm; }
 

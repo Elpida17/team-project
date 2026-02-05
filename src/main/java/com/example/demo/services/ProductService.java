@@ -29,9 +29,8 @@ public class ProductService {
 		return productRepository.findAll();
 	}
 
-	 // Προσθήκη προϊόντος σε κατάστημα
+	 // add product to store
 	public void addProductToStore(Integer storeAfm, AddProductDto dto) {
-	    // Το storeAfm έρχεται ως παράμετρος, όχι μέσα στο DTO
 	    Store store = storeRepository.findById(storeAfm).orElseThrow(() -> new RuntimeException("Το κατάστημα δεν βρέθηκε"));
 	    
 	    Product product = new Product();

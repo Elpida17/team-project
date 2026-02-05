@@ -25,10 +25,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    /**
-     * Endpoint για τη σύνδεση χρηστών (Πολίτης ή Κατάστημα).
-     * Επιστρέφει το role για το κατάλληλο redirect στο frontend.
-     */
+    /*Endpoint of the log in */
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto) {
         LoginResponseDto response = userService.login(dto.afm, dto.password);
@@ -36,27 +33,21 @@ public class UserController {
     }
     
 
-    /**
-     * Endpoint για την εγγραφή νέου πολίτη.
-     */
+    /*Endpoint for citizen Register */
     @PostMapping("/citizenRegister")
     public ResponseEntity<String> citizenRegister(@Valid @RequestBody CitizenRegisterDto dto) {
         String result = userService.citizenRegister(dto); //
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * Endpoint για την εγγραφή νέου καταστήματος.
-     */
+    /*Endpoint for store Register */
     @PostMapping("/storeRegister")
     public ResponseEntity<String> storeRegister(@Valid @RequestBody StoreRegisterDto dto) {
         String result = userService.storeRegister(dto); //
         return ResponseEntity.ok(result);
     }
 
-    /**
-     * Επιστρέφει όλους τους εγγεγραμμένους πολίτες.
-     */
+    /*Endpoint for get Citizens - Testing */
     @GetMapping("/getCitizens")
     public List<Citizen> getAllCitizens() throws Exception {
         return userService.getCitizens(); //

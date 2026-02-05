@@ -55,7 +55,7 @@
     <script>
         // Get store AFM from URL parameter
         const urlParams = new URLSearchParams(window.location.search);
-        const storeAfm = urlParams.get('storeAfm') || '121212121'; // Default for testing
+        const storeAfm = urlParams.get('storeAfm') || '121212121';
 		
 		document.getElementById('backBtn').href = 'storeLandingPage.html?storeAfm=' + storeAfm;
 		
@@ -85,7 +85,6 @@
                         $('#productsArea').show();
                     }
 
-                    // Show store info if available
                     if (products.length > 0 && products[0].store) {
                         $('#storeInfo').show();
                         $('#storeName').text(products[0].store.shopName || 'Κατάστημα');
@@ -171,7 +170,6 @@
             $(`#save-btn-${index}`).show();
             $(`#product-row-${index}`).addClass('changed-indicator');
             
-            // Remove indicator after animation
             setTimeout(() => {
                 $(`#product-row-${index}`).removeClass('changed-indicator');
             }, 500);

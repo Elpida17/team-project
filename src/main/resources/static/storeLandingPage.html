@@ -61,7 +61,6 @@
                     var tableBody = $("#productsBody");
                     tableBody.empty();
 
-                    // Show store name if available
                     if (response.length > 0 && response[0].store) {
                         $("#storeName").text(response[0].store.shopName);
                     }

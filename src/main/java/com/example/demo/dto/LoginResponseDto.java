@@ -11,7 +11,6 @@ public class LoginResponseDto {
         this.afm = afm;
     }
 
-    // Getters 
     public String getMessage() { return message; }
     public String getRole() { return role; }
     public Integer getAfm() { return afm; }

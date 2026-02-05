@@ -12,7 +12,7 @@ public interface ProductRepository extends JpaRepository<Product, String> {
 
 @Query(
 	   "SELECT p FROM Product p " +
-       "WHERE (:type IS NULL OR LOWER(p.type) LIKE LOWER(CONCAT('%', :type, '%'))) " + //ο χρήστης μπορεί να βρεί το προϊόν ακόμη και αν δεν το γράψει ακριβώς όπως πρέπει(π.χ.Lap αντί για Laptop)
+       "WHERE (:type IS NULL OR LOWER(p.type) LIKE LOWER(CONCAT('%', :type, '%'))) " +
        "AND (:brand IS NULL OR LOWER(p.brand) LIKE LOWER(CONCAT('%', :brand, '%'))) " +
 	   "AND (:minPrice IS NULL OR p.price >= :minPrice) " +
        "AND (:maxPrice IS NULL OR p.price <= :maxPrice)")

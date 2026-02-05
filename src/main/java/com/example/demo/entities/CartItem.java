@@ -2,12 +2,7 @@ package com.example.demo.entities;
 
 import javax.persistence.*;
 
-/**
- * Η κλάση CartItem λειτουργεί ως συνδετικός κρίκος (bridge) μεταξύ Cart και Product.
- * 1. Επιτρέπει την αποθήκευση επιπλέον πληροφοριών για τη σχέση(quantity).
- * 2. Αποφεύγει την άμεση σύνδεση Many-to-Many μεταξύ Cart και Product, η οποία θα 
- * περιόριζε τη δυνατότητα να έχουμε πολλαπλά ίδια προϊόντα στο ίδιο καλάθι.
- */
+/* The class CartIem works as a connections between the Cart and Product. */
 
 @Entity
 public class CartItem {
@@ -27,9 +22,6 @@ public class CartItem {
     
     public CartItem() {}
     
-    /*Προσθέτουμε στον constructor το Product και το Cart, έτσι ώστε
-     * όταν δημιουργούμε ένα αντικείμενο, να μπορούμε να τα ορίσουμε όλα μαζί
-     */
     public CartItem(Product product, Cart cart, int quantity) {
         this.product = product;
         this.cart = cart;

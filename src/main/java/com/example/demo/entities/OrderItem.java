@@ -16,7 +16,6 @@ public class OrderItem {
 
     public OrderItem() {}
 
-    // Getters και Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public Product getProduct() { return product; }

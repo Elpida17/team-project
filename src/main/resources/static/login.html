@@ -77,10 +77,8 @@
 		$.ajax(settings).done(function(response) {
 		    // Redirect based on user type
 		    if (response.role === 'store') {
-		    	// Redirect to store dashboard
 		   	 	window.location.href = 'storeLandingPage.html?storeAfm=' + afm;
 		    } else if (response.role === 'citizen') {
-		    	// Redirect to citizen landing page
 		    	window.location.href = 'citizenLandingPage.html?citizenAfm=' + afm;
 		    } else {
 		    	alert("Λάθος ΑΦΜ ή κωδικός");

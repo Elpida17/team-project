@@ -9,7 +9,6 @@ public class ErrorResponse {
         this.timestamp = System.currentTimeMillis();
     }
 
-    // Getters
     public String getMessage() { return message; }
     public long getTimestamp() { return timestamp; }
 }
