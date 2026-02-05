@@ -9,12 +9,6 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
-    
-	<div class="cart-icon">
-	    <i class="fa-solid fa-cart-shopping"></i>
-	    <span id="cart-count">0</span>
-	</div>
-	
     <h2 style="text-align:center;">Αναζήτηση Προϊόντων</h2> 
 
 	<div class="searchTable">
@@ -62,14 +56,22 @@
 	
 	<div>
 		<nav style="text-align: center; margin-top: 20px;">
+			 <a href="#" id="cartBtn" class="cart-btn">Μετάβαση στο καλάθι αγορών</a>
+		</nav>
+	</div>
+	
+	<div>
+		<nav style="text-align: center; margin-top: 20px;">
 		     <a href="#" id="backBtn" class="back-btn">Επιστροφή στην Αρχική</a>
 		</nav>
 	</div>
+	
 	<script>
 		const urlParams = new URLSearchParams(window.location.search);
 		const citizenAfm = urlParams.get('citizenAfm');
 
 		document.getElementById('backBtn').href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
+		document.getElementById('cartBtn').href = 'ViewCart.html?citizenAfm=' + citizenAfm;
 		
 		let cartCount = 0;
 		
