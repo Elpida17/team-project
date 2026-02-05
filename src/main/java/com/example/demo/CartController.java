@@ -7,19 +7,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.demo.dto.AddToCartDto;
 import com.example.demo.entities.Cart;
-import com.example.demo.services.CartService; // <--- ΠΡΟΣΟΧΗ ΕΔΩ
+import com.example.demo.services.CartService; 
 
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/cart") 
 public class CartController {
 
     @Autowired
     private CartService cartService; 
     
+    
     @PostMapping("/add")
     public ResponseEntity<String> addToCart(@RequestBody AddToCartDto addToCartDto) {
-        cartService.addProductToCart(addToCartDto);
-        return ResponseEntity.ok("Το προϊόν προστέθηκε στο καλάθι.");
+        try {
+            System.out.println("Προσπάθεια προσθήκης: " + addToCartDto.getProductType());
+            
+            cartService.addProductToCart(addToCartDto);
+            return ResponseEntity.ok("Το προϊόν προστέθηκε στο καλάθι.");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Σφάλμα: " + e.getMessage());
+        }
     }
     
     @GetMapping("/view/{citizenAfm}")

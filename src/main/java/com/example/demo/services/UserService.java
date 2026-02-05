@@ -12,9 +12,11 @@ import com.example.demo.dto.CitizenRegisterDto;
 import com.example.demo.dto.LoginResponseDto;
 import com.example.demo.dto.StoreRegisterDto;
 import com.example.demo.entities.Citizen;
+import com.example.demo.entities.Order;
 import com.example.demo.entities.Store;
 import com.example.demo.repository.CitizenRepository;
 import com.example.demo.repository.StoreRepository;
+import com.example.demo.repository.OrderRepository;
 
 @Service
 public class UserService {
@@ -24,6 +26,9 @@ public class UserService {
 
     @Autowired
     private StoreRepository storeRepository;
+    
+    @Autowired
+    private OrderRepository orderRepository;
 
     public LoginResponseDto login(Integer afm, String password) {
         // Search for Citizen
@@ -89,5 +94,9 @@ public class UserService {
     
     public List<Citizen> getCitizens(){
     	return citizenRepository.findAll();
+    }
+    
+    public List<Order> getCitizenOrders(Integer afm) {
+        return orderRepository.findByCitizenAfm(afm);
     }
 }

@@ -3,41 +3,46 @@ package com.example.demo;
 import com.example.demo.entities.Order;
 import com.example.demo.entities.Citizen;
 import com.example.demo.services.OrderService;
-import com.example.demo.repository.CitizenRepository; // Χρειαζόμαστε αυτό για να βρούμε τον Citizen
+import com.example.demo.repository.CitizenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Map;
 
 @RestController
-@RequestMapping("/api/orders")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class OrderController {
-
     @Autowired
     private OrderService orderService;
 
     @Autowired
     private CitizenRepository citizenRepository;
 
-    /*Endpoint for the Checkout*/
-    @PostMapping("/checkout")
-    public ResponseEntity<?> checkout(@RequestBody Map<String, Integer> payload) {
-        Integer afm = payload.get("afm");
-        
-        Citizen citizen = citizenRepository.findById(afm)
-                .orElseThrow(() -> new RuntimeException("Ο πολίτης με ΑΦΜ " + afm + " δεν βρέθηκε."));
+    // Endpoint for Checkout 
+   
+    @PostMapping("/orders/checkout/{afm}")
+    public ResponseEntity<String> checkout(@PathVariable Integer afm) {
+        try {
+            System.out.println("---- Αίτημα Ολοκλήρωσης για ΑΦΜ: " + afm + " ----");
+            
+            
+            Citizen citizen = citizenRepository.findById(afm)
+                    .orElseThrow(() -> new RuntimeException("Ο πολίτης δεν βρέθηκε!"));
 
-        Order finalOrder = orderService.createOrderFromCart(citizen);
-        
-        return ResponseEntity.ok(finalOrder);
+            
+            Order finalOrder = orderService.createOrderFromCart(citizen);
+            
+            return ResponseEntity.ok("Η παραγγελία ολοκληρώθηκε επιτυχώς! Κωδικός: " + finalOrder.getId());
+
+        } catch (Exception e) {
+            e.printStackTrace(); 
+            return ResponseEntity.status(500).body("Σφάλμα: " + e.getMessage());
+        }
     }
 
-    /*Endpoint for the history of orders*/
-    @GetMapping("/history/{afm}")
+    // Endpoint for History 
+    @GetMapping("/orders-history/{afm}")
     public ResponseEntity<List<Order>> getOrderHistory(@PathVariable Integer afm) {
-        List<Order> history = orderService.getOrdersByCitizen(afm);
-        return ResponseEntity.ok(history);
+        return ResponseEntity.ok(orderService.getOrdersByCitizen(afm));
     }
 }

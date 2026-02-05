@@ -56,7 +56,9 @@
 	
 	<div>
 		<nav style="text-align: center; margin-top: 20px;">
-			 <a href="#" id="cartBtn" class="cart-btn">Μετάβαση στο καλάθι αγορών</a>
+			 <a href="#" id="cartBtn" class="cart-btn">Μετάβαση στο καλάθι αγορών (<span id="cart-count">0</span>)
+				
+			 </a>
 		</nav>
 	</div>
 	
@@ -75,10 +77,6 @@
 		
 		let cartCount = 0;
 		
-	    function addToCart() {
-	        cartCount++;
-	        document.getElementById("cart-count").innerText = cartCount;
-	    } 
 	    
 	    function changeQty(productType, delta) {
 	        var qtyInput = document.getElementById('qty-' + productType);
@@ -175,6 +173,7 @@
 		    })
 		    .fail(function (err) {
 		        console.error(err);
+				var msg = err.responseText || "Παρουσιάστηκε άγνωστο σφάλμα κατά την προσθήκη";
 		        alert("Αποτυχία προσθήκης: " + err.responseText);
 		    });
 		}

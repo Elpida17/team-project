@@ -17,12 +17,15 @@
         <a href="#" id="viewCartBtn">
             <button>Το Καλάθι Μου</button>
         </a>
+		<a href="#" id="viewHistoryBtn">
+					<button>Το Ιστορικό μου</button>
+				</a>
         <a href="login.html">
             <button style="background-color: #6c757d;">Αποσύνδεση</button>
         </a>
     </div>
-
-    <script>
+	
+	<script>
         // Get citizen AFM from URL
         const urlParams = new URLSearchParams(window.location.search);
         const citizenAfm = urlParams.get('citizenAfm') || '111222333';
@@ -30,12 +33,16 @@
         // Set cart link with citizen AFM
         document.getElementById('viewCartBtn').href = 'viewCart.html?citizenAfm=' + citizenAfm;
 		document.getElementById('searchProductBtn').href = 'searchProduct.html?citizenAfm=' + citizenAfm;
+		document.getElementById('viewHistoryBtn').href = 'orderHistory.html?citizenAfm=' + citizenAfm;
 
         $(document).ready(function() {
 
             $("#citizenName").text("ΑΦΜ: " + citizenAfm);
         });
-    </script>
+		
 
+    </script>
+	
+	
 </body>
 </html>

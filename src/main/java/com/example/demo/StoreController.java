@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.demo.entities.Product;
 import com.example.demo.entities.Store;
 import com.example.demo.services.StoreService;
 
@@ -32,4 +33,7 @@ public class StoreController {
 	public List<Store> getAllStore()  throws Exception{
 		return storeService.getAllStores();
 	} 
+	
+	
+	
 }

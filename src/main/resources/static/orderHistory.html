@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <title>Ιστορικό Παραγγελιών</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="login-container" style="max-width: 800px;">
+        <h2><i class="fa-solid fa-clock-rotate-left"></i> Το Ιστορικό μου</h2>
+        <table border="1" id="resultsTable" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>Προϊόν</th>
+                    <th>Ποσότητα</th>
+                    <th>Συνολική Τιμή</th>
+                    <th>Ημερομηνία</th>
+                </tr>
+            </thead>
+            <tbody id="ordersBody">
+                </tbody>
+        </table>
+        <button onclick="history.back()" style="background-color: #6c757d; margin-top: 20px;">Επιστροφή</button>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const afm = urlParams.get('citizenAfm');
+
+            if (afm) {
+                
+                $.get("http://localhost:8080/orders-history/" + afm, function(data) {
+                    let table = $("#ordersBody");
+                    table.empty();
+                    
+                    if(data.length === 0) {
+                        table.append("<tr><td colspan='4' style='text-align:center;'>Δεν βρέθηκαν παραγγελίες.</td></tr>");
+                        return;
+                    }
+
+					data.forEach(order => {
+					   
+					    if (order.orderItems && order.orderItems.length > 0) {
+					        order.orderItems.forEach(item => {
+					            
+					            let dateStr = order.orderDate ? new Date(order.orderDate).toLocaleDateString('el-GR') : "---";
+					            
+					            table.append(`
+					                <tr>
+					                    <td>${item.productType || "---"}</td>
+					                    <td>${item.quantity || 0}</td>
+					                    <td>${order.totalPrice.toFixed(2)} €</td>
+					                    <td>${dateStr}</td>
+					                </tr>
+					            `);
+					        });
+					    } else {
+					        
+					        table.append(`
+					            <tr>
+					                <td>---</td>
+					                <td>---</td>
+					                <td>${order.totalPrice.toFixed(2)} €</td>
+					                <td>---</td>
+					            </tr>
+					        `);
+					    }
+					});
+                }).fail(function(err) {
+                    alert("Σφάλμα κατά τη φόρτωση του ιστορικού.");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

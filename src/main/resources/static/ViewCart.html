@@ -124,7 +124,7 @@
                 url: "http://localhost:8080/cart/remove?citizenAfm=" + citizenAfm + "&productType=" + productType,
                 method: "DELETE",
                 success: function() {
-                    loadCart(); // Επαναφόρτωση για να δούμε το ανανεωμένο καλάθι
+                    loadCart(); 
                 },
                 error: function(xhr) {
                     alert("Σφάλμα κατά τη διαγραφή: " + xhr.responseText);
@@ -132,25 +132,32 @@
             });
         }
 
-        function processCheckout() {
-            const checkoutBtn = $('#checkoutBtn');
-            checkoutBtn.prop('disabled', true).text('Επεξεργασία...');
+		function processCheckout() {
+		            const checkoutBtn = $('#checkoutBtn');
+		            
+		   
+		            if (!confirm("Είστε σίγουροι ότι θέλετε να ολοκληρώσετε την αγορά;")) return;
 
-            $.ajax({
-                url: "http://localhost:8080/api/orders/checkout",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({ afm: parseInt(citizenAfm) }),
-                success: function(response) {
-                    alert("Η παραγγελία ολοκληρώθηκε επιτυχώς! Αριθμός Παραγγελίας: " + response.id);
-                    window.location.href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
-                },
-                error: function(xhr) {
-                    alert("Σφάλμα κατά την ολοκλήρωση: " + xhr.responseText);
-                    checkoutBtn.prop('disabled', false).text('Ολοκλήρωση Αγοράς');
-                }
-            });
-        }
+		            checkoutBtn.prop('disabled', true).text('Επεξεργασία...');
+
+		            $.ajax({
+		                
+		                url: "http://localhost:8080/orders/checkout/" + citizenAfm,
+		                method: "POST",
+		                
+		                success: function(response) {
+		                   
+		                    alert(response); 
+		                    window.location.href = 'citizenLandingPage.html?citizenAfm=' + citizenAfm;
+		                },
+		                error: function(xhr) {
+		                    let errorMsg = xhr.responseText || "Άγνωστο σφάλμα συστήματος";
+		                    alert("Σφάλμα κατά την ολοκλήρωση: " + errorMsg);
+		                    
+		                    checkoutBtn.prop('disabled', false).text('Ολοκλήρωση Αγοράς');
+		                }
+		            });
+		        }
     </script>
 </body>
 </html>
